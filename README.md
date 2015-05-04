@@ -1,3 +1,5 @@
+[![travis-ci.org](https://travis-ci.org/bsvingen/image-metadata-utils.svg?branch=master)](https://travis-ci.org/bsvingen/image-metadata-utils)
+
 # clojure.image-metadata-utils
 
 This is a simple library for manipulating image metadata in Clojure.
