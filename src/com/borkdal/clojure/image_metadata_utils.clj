@@ -11,6 +11,7 @@
            PhotoshopApp13Data]))
 
 (defn get-image-metadata
+  "Returns all metadata for an image file."
   [file]
   {:pre [(instance? File file)]}
   (map (fn [item] {:key (.getKeyword item)
@@ -48,6 +49,7 @@
   (transduce xform conj iptc-entries))
 
 (defn transform-image-iptc-data
+  "Transforms metadata in image file, writing to new file."
   [input-file
    output-file
    xform]
@@ -64,6 +66,7 @@
                    (.getRawBlocks photoshop-app-13-data))))))
 
 (defn map-keyword
+  "Creates a transducer for mapping keywords with provided function."
   [f]
   (map
    (fn [iptc-entry]
@@ -72,6 +75,7 @@
        iptc-entry))))
 
 (defn replace-keyword
+  "Creates a transducer for replacing keywords."
   [before
    after]
   (map-keyword
@@ -81,6 +85,7 @@
        keyword))))
 
 (defn remove-keyword
+  "Creates a transducer for removing keywords."
   [keyword]
   (filter
    (fn [iptc-entry]
