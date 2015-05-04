@@ -63,3 +63,28 @@
                    (transform-iptc-entries xform (get-iptc-entries photoshop-app-13-data))
                    (.getRawBlocks photoshop-app-13-data))))))
 
+(defn map-keyword
+  [f]
+  (map
+   (fn [iptc-entry]
+     (if (= (:key iptc-entry) "Keywords")
+       {:key "Keywords" :value (f (:value iptc-entry))}
+       iptc-entry))))
+
+(defn replace-keyword
+  [before
+   after]
+  (map-keyword
+   (fn [keyword]
+     (if (= keyword before)
+       after
+       keyword))))
+
+(defn remove-keyword
+  [keyword]
+  (filter
+   (fn [iptc-entry]
+     (not
+      (and (= (:key iptc-entry) "Keywords")
+           (= (:value iptc-entry) keyword))))))
+

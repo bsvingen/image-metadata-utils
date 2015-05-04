@@ -22,22 +22,12 @@ Metadata is represented like this:
 ```clojure
 ({:key "Make", :value "'NIKON CORPORATION'"}
  {:key "Model", :value "'NIKON D800E'"}
- {:key "Orientation", :value "1"}
- {:key "XResolution", :value "240"}
- {:key "YResolution", :value "240"}
- {:key "ResolutionUnit", :value "2"}
- {:key "Software", :value "'Adobe Photoshop Lightroom 6.0 (Macintosh)'"}
- {:key "DateTime", :value "'2015:05:02 19:55:53'"}
  {:key "ExifOffset", :value "230"}
  {:key "Keywords", :value "atlantic road"}
  {:key "Keywords", :value "clouds"}
- {:key "Keywords", :value "moere"}
  {:key "Keywords", :value "norway"}
- {:key "Keywords", :value "ocean"}
  {:key "Keywords", :value "sky"}
- {:key "Keywords", :value "sun"}
- {:key "Keywords", :value "sunset"}
- {:key "Keywords", :value "sunset/sunrise"})
+ {:key "Keywords", :value "sunset"})
 ```
 
 ## Manipulating
@@ -46,27 +36,17 @@ To manipulate metadata, provide a transducer that transforms entries
 on the above form:
 
 ```clojure
-(require '[com.borkdal.clojure.image-metadata-utils :as meta])
-
-(defn lower-case-keyword
-  [iptc-entry]
-  {:key (:key iptc-entry)
-		:value (clojure.string/lower-case (:value iptc-entry))})
-
-(defn match-keyword
-  [iptc-entry
-   keyword]
-  (or (not (= (:key iptc-entry) "Keywords"))
-	  (not (= (:value iptc-entry) keyword))))
-
 (def keywords-transducer
-	 (comp (map lower-case-keyword)
-		   (filter #(match-keyword % "sunset"))))
+	 (comp (map-keyword clojure.string/lower-case)
+		   (remove-keyword "sunset")
+		   (remove-keyword "sky")
+		   (replace-keyword "clouds" "lots of clouds")))
 
-(meta/transform-image-iptc-data input-file output-file keywords-transducer)
+(transform-image-iptc-data input-file output-file keywords-transducer)
 ```
 
-Only IPTC fields are supported for now.
+Only IPTC fields are supported for now, with predefined transducers
+for manipulating keywords.
 
 ## Limitations
 

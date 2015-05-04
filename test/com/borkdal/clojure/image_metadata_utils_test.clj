@@ -21,21 +21,11 @@
     {:key "Keywords", :value "sunset"}
     {:key "Keywords", :value "sunset/sunrise"}))
 
-(defn lower-case-keyword
-  [iptc-entry]
-  {:key (:key iptc-entry)
-   :value (clojure.string/lower-case (:value iptc-entry))})
-
-(defn match-keyword
-  [iptc-entry
-   keyword]
-  (or (not (= (:key iptc-entry) "Keywords"))
-      (not (= (:value iptc-entry) keyword))))
-
 (def keywords-transducer
-  (comp (map lower-case-keyword)
-        (filter #(match-keyword % "sunset"))
-        (filter #(match-keyword % "sky"))))
+  (comp (map-keyword clojure.string/lower-case)
+        (remove-keyword "sunset")
+        (remove-keyword "sky")
+        (replace-keyword "clouds" "lots of clouds")))
 
 (fact "transform-iptc-entries"
   (transform-iptc-entries keywords-transducer test-iptc-entries)
@@ -44,7 +34,7 @@
       {:key "Digital Creation Date", :value "20150102"}
       {:key "Digital Creation Time", :value "123550"}
       {:key "Keywords", :value "atlantic road"}
-      {:key "Keywords", :value "clouds"}
+      {:key "Keywords", :value "lots of clouds"}
       {:key "Keywords", :value "moere"}
       {:key "Keywords", :value "norway"}
       {:key "Keywords", :value "ocean"}
