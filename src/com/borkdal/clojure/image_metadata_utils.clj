@@ -14,8 +14,8 @@
   "Returns all metadata for an image file."
   [file]
   {:pre [(instance? File file)]}
-  (map (fn [item] {:key (.getKeyword item)
-                   :value (.getText item)})
+  (map (fn [item] [(.getKeyword item)
+                   (.getText item)])
        (.getItems
         (Imaging/getMetadata file))))
 
@@ -28,8 +28,8 @@
 (defn- get-iptc-entries
   [photoshop-app-13-data]
   {:pre [(instance? PhotoshopApp13Data photoshop-app-13-data)]}
-  (map (fn [item] {:key (.getIptcTypeName item)
-                   :value (.getValue item)})
+  (map (fn [item] [(.getIptcTypeName item)
+                   (.getValue item)])
        (.getRecords photoshop-app-13-data)))
 
 (defn- make-photoshop-app-13-data
@@ -39,7 +39,7 @@
    :post [(instance? PhotoshopApp13Data %)]}
   (PhotoshopApp13Data.
    (let [type-map (get-type-map)]
-     (map #(IptcRecord. (type-map (:key %)) (:value %))
+     (map (fn [[key value]] (IptcRecord. (type-map key) value))
           iptc-entries))
    raw-blocks))
 
@@ -69,10 +69,10 @@
   "Creates a transducer for mapping keywords with provided function."
   [f]
   (map
-   (fn [iptc-entry]
-     (if (= (:key iptc-entry) "Keywords")
-       {:key "Keywords" :value (f (:value iptc-entry))}
-       iptc-entry))))
+   (fn [[key value]]
+     (if (= key "Keywords")
+       [key (f value)]
+       [key value]))))
 
 (defn replace-keyword
   "Creates a transducer for replacing keywords."
@@ -88,8 +88,8 @@
   "Creates a transducer for removing keywords."
   [keyword]
   (filter
-   (fn [iptc-entry]
+   (fn [[key value]]
      (not
-      (and (= (:key iptc-entry) "Keywords")
-           (= (:value iptc-entry) keyword))))))
+      (and (= key "Keywords")
+           (= value keyword))))))
 

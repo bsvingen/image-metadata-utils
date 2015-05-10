@@ -22,14 +22,14 @@ argument should be a `java.util.File` object.
 Metadata is represented like this:
 
 ```clojure
-({:key "Make", :value "'NIKON CORPORATION'"}
- {:key "Model", :value "'NIKON D800E'"}
- {:key "ExifOffset", :value "230"}
- {:key "Keywords", :value "atlantic road"}
- {:key "Keywords", :value "clouds"}
- {:key "Keywords", :value "norway"}
- {:key "Keywords", :value "sky"}
- {:key "Keywords", :value "sunset"})
+(["Make" "'NIKON CORPORATION'"]
+ ["Model" "'NIKON D800E'"]
+ ["ExifOffset" "230"]
+ ["Keywords" "atlantic road"]
+ ["Keywords" "clouds"]
+ ["Keywords" "norway"]
+ ["Keywords" "sky"]
+ ["Keywords" "sunset"])
 ```
 
 ## Manipulating
