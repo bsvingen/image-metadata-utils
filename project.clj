@@ -5,7 +5,7 @@
             :url "http://www.apache.org/licenses/LICENSE-2.0"}
   :repositories {"Apache Development Snapshot Repository"
                  "https://repository.apache.org/content/repositories/snapshots/"}
-  :dependencies [[org.clojure/clojure "1.7.0-RC1"]
+  :dependencies [[org.clojure/clojure "1.7.0-RC2"]
                  [org.apache.commons/commons-imaging "1.0-SNAPSHOT"]]
   :profiles {:dev {:dependencies [[midje "1.7.0-beta1"]]
                    :plugins [[lein-midje "3.1.3"]]}})
