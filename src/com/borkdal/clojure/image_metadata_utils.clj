@@ -1,14 +1,14 @@
 (ns com.borkdal.clojure.image-metadata-utils
-  (require [clojure.java.io :as io])
-  (import [java.util List]
-          [java.io File]
-          [org.apache.commons.imaging Imaging]
-          [org.apache.commons.imaging.formats.jpeg.iptc
-           IptcTypes
-           IptcRecord
-           IptcBlock
-           JpegIptcRewriter
-           PhotoshopApp13Data]))
+  (:require [clojure.java.io :as io])
+  (:import [java.util List]
+           [java.io File]
+           [org.apache.commons.imaging Imaging]
+           [org.apache.commons.imaging.formats.jpeg.iptc
+            IptcTypes
+            IptcRecord
+            IptcBlock
+            JpegIptcRewriter
+            PhotoshopApp13Data]))
 
 (defn get-image-metadata
   "Returns all metadata for an image file."
