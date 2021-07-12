@@ -12,8 +12,6 @@ Leiningen coordinate:
 [com.borkdal/clojure.image-metadata-utils "0.1.0-SNAPSHOT"]
 ```
 
-Requires the 1.7.0 beta of Clojure.
-
 ## Reading
 
 To read generic image metadata, use `get-image-metadata` - the single
